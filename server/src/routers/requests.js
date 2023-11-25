@@ -1,7 +1,7 @@
 const express = require("express");
-const Requests = require("../mongoose/models/requests");
+const Students = require("../mongoose/models/students");
 
 //setting up the request router
-const requestRouter = express.Router();
+const studentRouter = express.Router();
 
-module.exports = requestRouter;
+module.exports = studentRouter;

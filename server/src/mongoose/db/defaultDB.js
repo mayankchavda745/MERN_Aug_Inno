@@ -1,105 +1,34 @@
 const mongoose = require("mongoose");
-const Request = require("../models/requests");
+const Students = require("../models/students");
 require("./mongoose");
 
-//data to be inserted into db
-const requests = [
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user one",
-        email: "userone@abc.com",
-        type: "call",
-        raised_on: new Date(),
-        issue_description: "Hearing more cross talks in the calls"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user one",
-        email: "userone@abc.com",
-        type: "data",
-        raised_on: "2023-05-20",
-        status: "resolved",
-        issue_description: "Internet speed is too slow",
-        comment: "We are working on adding up few more towers, it will be resolved soon"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user two",
-        email: "usertwo@abc.com",
-        type: "call",
-        raised_on: "2023-05-19",
-        status: "in-progress",
-        issue_description: "Having voice lags during the calls"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user one",
-        email: "usernew@abc.com",
-        type: "call",
-        raised_on: new Date(),
-        issue_description: "Hearing more cross talks in the calls"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user three",
-        email: "userthree@abc.com",
-        type: "others",
-        raised_on: "2023-05-23",
-        status: "rejected",
-        issue_description: "Not getting good signal at most of the places"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user three",
-        email: "userthree@abc.com",
-        type: "message",
-        raised_on: "2023-04-28",
-        status: "resolved",
-        issue_description: "Message delivery takes more time",
-        comment: "We checked your connection and corrected it. Now message won't take much time to delver, Thanks for reaching out to us!!!"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user four",
-        email: "userfour@abc.com",
-        type: "data",
-        raised_on: new Date(),
-        issue_description: "Latency is too high and speed is too slow"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user one",
-        email: "userone@abc.com",
-        type: "others",
-        raised_on: "2023-03-31",
-        status: "resolved",
-        issue_description: "Connectivity is too bad in the day time",
-        comment: "Hi, it is due to the migration of towers form 4g to 5g, it will get fixed soon"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user five",
-        email: "userone@abc.com",
-        type: "call",
-        raised_on: "2023-05-22",
-        status: "in-progress",
-        issue_description: "Calls are always diverted to some other numbers even though I selected not to do that"
-    },
-    {
-        _id: new mongoose.Types.ObjectId(),
-        name: "user six",
-        email: "usersix@abc.com",
-        type: "message",
-        raised_on: new Date(),
-        issue_description: "All the messages has some data missing in it"
-    },
-]
-
+const students_data = [
+    { _id: new mongoose.Types.ObjectId(), name: 'Student1', s1: 100, s2: 78, s3: 90, total: 268 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student2', s1: 100, s2: 82, s3: 88, total: 270 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student3', s1: 100, s2: 94, s3: 87, total: 281 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student4', s1: 91, s2: 100, s3: 92, total: 283 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student5', s1: 87, s2: 100, s3: 84, total: 271 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student6', s1: 93, s2: 100, s3: 91, total: 284 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student7', s1: 82, s2: 88, s3: 95, total: 265 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student8', s1: 88, s2: 91, s3: 100, total: 279 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student9', s1: 84, s2: 83, s3: 100, total: 267 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student10', s1: 90, s2: 86, s3: 100, total: 276 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student11', s1: 50, s2: 60, s3: 70, total: 180 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student12', s1: 60, s2: 50, s3: 70, total: 180 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student13', s1: 50, s2: 60, s3: 70, total: 180 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student14', s1: 50, s2: 60, s3: 70, total: 180 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student15', s1: 33, s2: 33, s3: 33, total: 99 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student16', s1: 33, s2: 33, s3: 33, total: 99 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student17', s1: 33, s2: 33, s3: 33, total: 99 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student18', s1: 33, s2: 33, s3: 33, total: 99 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student19', s1: 33, s2: 33, s3: 33, total: 99 },
+    { _id: new mongoose.Types.ObjectId(), name: 'Student20', s1: 50, s2: 60, s3: 70, total: 180 }
+];
 //function to seed data into db
 const setUpDatabase = async () => {
-    await Request.deleteMany();
-    for (let i = 0 ; i < requests.length ; i++)
-        await Request(requests[i]).save();
+    await Students.deleteMany();
+    for (let i = 0; i < students_data.length; i++)
+        await Students(students_data[i]).save();
     await mongoose.connection.close();
 }
 
