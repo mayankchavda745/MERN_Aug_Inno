@@ -6,7 +6,7 @@ const studentSchema = mongoose.Schema({
     name:{
         type:String,
         require:true,
-        validate:(val)=>/^[a-zA-z]+$/.test(val)
+        validate:(val)=>/^[a-zA-z ]+$/.test(val)
     },
     s1:{
         type:Number,
@@ -31,7 +31,12 @@ const studentSchema = mongoose.Schema({
         require:true,
         min:0,
         max:300,
-        validate: () => this.s1 + this.s2 + this.s3 === this.total
+        validate:{
+            validator: function () {
+                return this.s1 + this.s2 + this.s3 === this.total;
+            },
+            message: 'Total must be the sum of s1, s2, and s3'
+        },
     }
 });
 
